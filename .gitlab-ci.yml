@@ -1,0 +1,27 @@
+image: python:3.9
+
+stages:
+  - build
+  - codestyle
+
+before_script:
+  - python --version ; pip --version
+  - pip install poetry
+
+build-job:
+  stage: build
+  script:
+    - echo "Installing packages..."
+    - poetry install
+
+flake8:
+  stage: codestyle
+  script:
+    - echo "Starting flake8"
+    - flake8
+
+black:
+  stage: codestyle
+  script:
+    - echo "Starting black"
+    - black --check .
