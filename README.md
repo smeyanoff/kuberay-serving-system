@@ -16,3 +16,4 @@ API-приложение для скоринга заемщиков.
 - [Asana](https://app.asana.com/0/home/1205395215309077)
 - [pgAdmin](http://185.174.136.172/pgadmin4/browser/)
 - [MindsDB](http://185.174.136.172:47334/editor)
+- [W&B](https://wandb.ai/loko-bank)
