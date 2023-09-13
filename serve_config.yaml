@@ -1,0 +1,55 @@
+# This file was generated using the `serve build` command on Ray v2.6.3.
+
+proxy_location: EveryNode
+
+http_options:
+
+  host: 0.0.0.0
+
+  port: 8000
+
+applications:
+
+- name: app1
+
+  route_prefix: /model-A
+
+  import_path: src.models.model_a.pipeline:app
+
+  runtime_env: {}
+
+  deployments:
+
+  - name: DataPrepare
+
+  - name: ModelA
+
+  - name: DAGDriver
+
+- name: app2
+
+  route_prefix: /model-B
+
+  import_path: src.models.model_b.pipeline:app
+
+  runtime_env: {}
+
+  deployments:
+
+  - name: ModelB
+
+  - name: DAGDriver
+
+- name: app3
+
+  route_prefix: /model-C
+
+  import_path: src.models.model_c.pipeline:app
+
+  runtime_env: {}
+
+  deployments:
+
+  - name: ModelC
+
+  - name: DAGDriver

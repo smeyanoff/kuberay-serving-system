@@ -1,1 +1,8 @@
+# poetry
 poetry.lock
+
+# venvs
+.venv
+
+# python and IDE`s
+__pycache__
