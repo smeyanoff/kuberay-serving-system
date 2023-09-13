@@ -17,11 +17,15 @@ build-job:
 flake8:
   stage: codestyle
   script:
+    - echo "install deps"
+    - poetry install --only testing
     - echo "Starting flake8"
     - flake8
 
 black:
   stage: codestyle
   script:
+    - echo "install deps"
+    - poetry install --only testing
     - echo "Starting black"
     - black --check .
