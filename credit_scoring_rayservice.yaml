@@ -13,48 +13,80 @@ spec:
 
       route_prefix: /model-A
 
-      import_path: pipeline:app
+      import_path: src.models.model_a.pipeline:app
 
-        runtime_env:
-          "working_dir": "file://src/models/model_a/pipeline.py"
+      runtime_env:
+        "working_dir": "https://github.com/smeyanoff/kuberay-seving-system/archive/8398976.zip"
+        "pip": ["python-dotenv"]
 
       deployments:
 
       - name: DataPrepare
+        ray_actor_options:
+          num_cpus: 0.3
+        num_replicas:
+          1
 
       - name: ModelA
+        ray_actor_options:
+          num_cpus: 0.3
+        num_replicas:
+          1
 
       - name: DAGDriver
+        ray_actor_options:
+          num_cpus: 0.3
+        num_replicas:
+          1
 
-    # - name: app2
+    - name: app2
 
-    #   route_prefix: /model-B
+      route_prefix: /model-B
 
-    #   import_path: pipeline.app
+      import_path: src.models.model_b.pipeline:app
 
-    #   runtime_env:
-    #     "working_dir": "file:///src/models/model_b"
+      runtime_env:
+        "working_dir": "https://github.com/smeyanoff/kuberay-seving-system/archive/8398976.zip"
+        "pip": ["python-dotenv"]
 
-    #   deployments:
+      deployments:
 
-    #   - name: ModelB
+      - name: ModelB
+        ray_actor_options:
+          num_cpus: 0.3
+        num_replicas:
+          1
 
-    #   - name: DAGDriver
+      - name: DAGDriver
+        ray_actor_options:
+          num_cpus: 0.3
+        num_replicas:
+          1
 
-    # - name: app3
+    - name: app3
 
-    #   route_prefix: /model-C
+      route_prefix: /model-C
 
-    #   import_path: pipeline.app
+      import_path: src.models.model_c.pipeline:app
 
-    #   runtime_env:
-    #     "working_dir": "file:///src/models/model_c"
+      runtime_env:
+        "working_dir": "https://github.com/smeyanoff/kuberay-seving-system/archive/8398976.zip"
+        "pip": ["python-dotenv"]
 
-    #   deployments:
+      deployments:
 
-    #   - name: ModelC
+      - name: ModelC
+        ray_actor_options:
+          num_cpus: 0.2
+        num_replicas:
+          1
 
-    #   - name: DAGDriver
+      - name: DAGDriver
+        ray_actor_options:
+          num_cpus: 0.2
+        num_replicas:
+          1
+
   rayClusterConfig:
     rayVersion: '2.6.3' # should match the Ray version in the image of the containers
     ######################headGroupSpecs#################################
@@ -75,8 +107,8 @@ spec:
               image: rayproject/ray:2.6.3
               resources:
                 limits:
-                  cpu: 1
-                  memory: 1Gi
+                  cpu: 2
+                  memory: 2Gi
                 requests:
                   cpu: 1
                   memory: 1Gi
@@ -101,11 +133,11 @@ spec:
         #pod template
         template:
           spec:
-            # initContainers:
-            #   # the env var $FQ_RAY_IP is set by the operator if missing, with the value of the head service name
-            #   - name: init
-            #     image: busybox:1.28
-            #     command: ['sh', '-c', "until nslookup $RAY_IP.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for K8s Service $RAY_IP; sleep 2; done"]
+            initContainers:
+              # the env var $FQ_RAY_IP is set by the operator if missing, with the value of the head service name
+              - name: init
+                image: busybox:1.28
+                command: ['sh', '-c', "until nslookup $RAY_IP.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for K8s Service $RAY_IP; sleep 2; done"]
             containers:
               - name: ray-worker # must consist of lower case alphanumeric characters or '-', and must start and end with an alphanumeric character (e.g. 'my-name',  or '123-abc'
                 image: rayproject/ray:2.6.3
@@ -115,9 +147,9 @@ spec:
                       command: ["/bin/sh","-c","ray stop"]
                 resources:
                   limits:
-                    cpu: "500m"
-                    memory: "512Mi"
+                    cpu: "256m"
+                    memory: "256Mi"
                   requests:
-                    cpu: "500m"
-                    memory: "512Mi"
+                    cpu: "256m"
+                    memory: "256Mi"
     headServiceAnnotations: {}

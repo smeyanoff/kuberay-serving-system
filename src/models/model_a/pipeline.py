@@ -1,6 +1,6 @@
 import os
 
-from ray import serve
+from ray import serve, get
 from ray.serve.handle import RayServeDeploymentHandle
 from ray.serve.drivers import DAGDriver
 from ray.serve.deployment_graph import InputNode
@@ -15,16 +15,19 @@ load_dotenv("configs/.env")
 
 @serve.deployment
 class ModelA:
-    def __init__(
-        self, model_path: str, data_prepare_class: RayServeDeploymentHandle
-    ) -> None:
+    def __init__(self, 
+                 model_path: str, 
+                 data_prepare_class: RayServeDeploymentHandle) -> None:
         self.model = model_path
         self.data_prepare_class = data_prepare_class
 
     async def get_unswer(self, data_json: dict) -> ResponseModel:
-        data = DataModel(data_json)
-        prepared_json = await self.data_prepare_class.remote(data_json)
-        return await ResponseModel("model_A", 1.0, prepared_json)
+        data = DataModel(**data_json)
+        prepared_json_ref = await self.data_prepare_class.remote(data)
+        prepared_json = await prepared_json_ref
+        return ResponseModel(model_name = "model_A", 
+                             model_unswer = 1.0, 
+                             model_data = prepared_json)
 
 
 data_prepare_class = DataPrepare.bind()

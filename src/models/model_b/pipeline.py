@@ -17,8 +17,11 @@ class ModelB:
         self.model = model_path
 
     def get_unswer(self, data_json: dict) -> ResponseModel:
-        data = DataModel(data_json)
-        return ResponseModel("model_B", 1.0, data)
+        data = DataModel(**data_json)
+        return ResponseModel(model_name = "model_B", 
+                             model_unswer = 1.0, 
+                             model_data = data)
+
 
 
 model = ModelB.bind(os.environ.get("MODEL_B_WEIGHTS"))
