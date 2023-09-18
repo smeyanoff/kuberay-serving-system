@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 from src.data_models import DataModel, ResponseModel
 
-load_dotenv("configs/.env")
+load_dotenv()
 
 
 @serve.deployment

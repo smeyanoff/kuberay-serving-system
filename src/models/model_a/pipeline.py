@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from src.data_models import DataModel, ResponseModel
 from src.models.model_a import DataPrepare
 
-load_dotenv("configs/.env")
+load_dotenv()
 
 
 @serve.deployment

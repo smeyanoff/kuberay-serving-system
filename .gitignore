@@ -6,3 +6,7 @@ poetry.lock
 
 # python and IDE`s
 __pycache__
+
+# creds 
+.env
+.env.*

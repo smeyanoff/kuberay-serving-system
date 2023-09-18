@@ -1,7 +1,7 @@
 apiVersion: ray.io/v1alpha1
 kind: RayService
 metadata:
-  name: rayservice-sample
+  name: credit-scoring-system
 spec:
   serviceUnhealthySecondThreshold: 60 
   deploymentUnhealthySecondThreshold: 60
@@ -16,26 +16,26 @@ spec:
       import_path: src.models.model_a.pipeline:app
 
       runtime_env:
-        "working_dir": "https://github.com/smeyanoff/kuberay-seving-system/archive/8398976.zip"
+        "working_dir": "https://github.com/smeyanoff/kuberay-seving-system/archive/07ac19c.zip"
         "pip": ["python-dotenv"]
 
       deployments:
 
       - name: DataPrepare
         ray_actor_options:
-          num_cpus: 0.3
+          num_cpus: 0.1
         num_replicas:
           1
 
       - name: ModelA
         ray_actor_options:
-          num_cpus: 0.3
+          num_cpus: 0.1
         num_replicas:
           1
 
       - name: DAGDriver
         ray_actor_options:
-          num_cpus: 0.3
+          num_cpus: 0.2
         num_replicas:
           1
 
@@ -46,20 +46,20 @@ spec:
       import_path: src.models.model_b.pipeline:app
 
       runtime_env:
-        "working_dir": "https://github.com/smeyanoff/kuberay-seving-system/archive/8398976.zip"
+        "working_dir": "https://github.com/smeyanoff/kuberay-seving-system/archive/07ac19c.zip"
         "pip": ["python-dotenv"]
 
       deployments:
 
       - name: ModelB
         ray_actor_options:
-          num_cpus: 0.3
+          num_cpus: 0.1
         num_replicas:
           1
 
       - name: DAGDriver
         ray_actor_options:
-          num_cpus: 0.3
+          num_cpus: 0.2
         num_replicas:
           1
 
@@ -70,14 +70,14 @@ spec:
       import_path: src.models.model_c.pipeline:app
 
       runtime_env:
-        "working_dir": "https://github.com/smeyanoff/kuberay-seving-system/archive/8398976.zip"
+        "working_dir": "https://github.com/smeyanoff/kuberay-seving-system/archive/07ac19c.zip"
         "pip": ["python-dotenv"]
 
       deployments:
 
       - name: ModelC
         ray_actor_options:
-          num_cpus: 0.2
+          num_cpus: 0.1
         num_replicas:
           1
 
@@ -110,8 +110,8 @@ spec:
                   cpu: 2
                   memory: 2Gi
                 requests:
-                  cpu: 1
-                  memory: 1Gi
+                  cpu: 2
+                  memory: 2Gi
               ports:
                 - containerPort: 6379
                   name: gcs-server
