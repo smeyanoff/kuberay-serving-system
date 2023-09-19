@@ -1,19 +1,14 @@
 image: python:3.9
 
 stages:
-  - build
   - codestyle
 
 before_script:
   - python --version ; pip --version
   - pip install poetry
   - poetry config virtualenvs.in-project true
-
-build-job:
-  stage: build
-  script:
-    - echo "Installing packages..."
-    - poetry install --only testing
+  - echo "Installing packages..."
+  - poetry install --only testing
 
 flake8:
   stage: codestyle
@@ -26,5 +21,3 @@ black:
   script:
     - echo "Starting black"
     - poetry run black --check .
-
-
