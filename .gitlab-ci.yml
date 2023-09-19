@@ -7,6 +7,7 @@ stages:
 before_script:
   - python --version ; pip --version
   - pip install poetry
+  - poetry config virtualenvs.in-project true
 
 build-job:
   stage: build
@@ -25,3 +26,5 @@ black:
   script:
     - echo "Starting black"
     - poetry run black --check .
+
+
