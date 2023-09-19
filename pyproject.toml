@@ -11,6 +11,7 @@ ray = {extras = ["serve"], version = "^2.6.3"}
 fastapi = "^0.103.1"
 pydantic = "1.10"
 poetry-dotenv-plugin = "^0.2.0"
+pre-commit = "^3.4.0"
 
 
 [tool.poetry.group.testing.dependencies]

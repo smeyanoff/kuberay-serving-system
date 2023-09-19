@@ -12,20 +12,16 @@ build-job:
   stage: build
   script:
     - echo "Installing packages..."
-    - poetry install
+    - poetry install --only testing
 
 flake8:
   stage: codestyle
   script:
-    - echo "install deps"
-    - poetry install --only testing
     - echo "Starting flake8"
     - poetry run flake8
 
 black:
   stage: codestyle
   script:
-    - echo "install deps"
-    - poetry install --only testing
     - echo "Starting black"
     - poetry run black --check .
