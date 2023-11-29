@@ -1,7 +1,5 @@
 # This file was generated using the `serve build` command on Ray v2.6.3.
 
-# serve run 
-
 proxy_location: EveryNode
 
 http_options:
@@ -14,25 +12,9 @@ applications:
 
 - name: app1
 
-  route_prefix: /model-A
+  route_prefix: /D_36_MODEL
 
-  import_path: src.models.model_a.pipeline:app
-
-  runtime_env: {}
-
-  deployments:
-
-  - name: DataPrepare
-
-  - name: ModelA
-
-  - name: DAGDriver
-
-- name: app2
-
-  route_prefix: /model-B
-
-  import_path: src.models.model_b.pipeline:app
+  import_path: src.models.catboost_D36.pipeline.app
 
   runtime_env: {}
 
@@ -42,11 +24,11 @@ applications:
 
   - name: DAGDriver
 
-- name: app3
+- name: app2
 
-  route_prefix: /model-C
+  route_prefix: /D_24_MODEL
 
-  import_path: src.models.model_c.pipeline:app
+  import_path: src.models.xgboost_D24.pipeline.app
 
   runtime_env: {}
 

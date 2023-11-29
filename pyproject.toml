@@ -6,7 +6,7 @@ authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "~3.9.18"
+python = "^3.9.18"
 ray = {extras = ["serve"], version = "^2.6.3"}
 fastapi = "^0.103.1"
 pydantic = "1.10"
