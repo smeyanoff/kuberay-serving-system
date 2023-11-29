@@ -132,19 +132,31 @@ $S(x_i, x_j) = \begin{cases} 1, \enspace x_i > x_j\\ \frac{1}{2}, \enspace x_i =
 - Сервис выдерживает нагрузку 3 одновременных запроса в секунду;
 - Скорость обработки запроса меньше 10 секунд.
 
-### 4. Внедрение `для production систем, если требуется`
-
-> Заполнение раздела 4 требуется не для всех дизайн документов. В некоторых случаях результатом итерации может быть расчет каких-то значений, далее используемых в бизнес-процессе для пилота.
-
+### 4. Внедрение
 #### 4.1. Архитектура решения
 
-- Блок схема и пояснения: сервисы, назначения, методы API `Data Scientist`
+<image src="infrastructure.png">
+
+На блок-схеме выше представлена инфраструктурная схема решения.
+Сервис разворачивается в рамках Kubernetes инфраструктуры.
+
+В качестве proxy используется Nginx. 
+В качестве сервиса управления моделями используется RayService.
 
 #### 4.2. Описание инфраструктуры и масштабируемости
 
-- Какая инфраструктура выбрана и почему `Data Scientist`
-- Плюсы и минусы выбора `Data Scientist`
-- Почему финальный выбор лучше других альтернатив `Data Scientist`
+##### Плюсы
+ - Kubernetes позволяет быстро подключать дополнительные вычислительные ноды. 
+ - Rayservice позволяет быстро масштабировать модели в новые ноды. 
+ - При этом, работа DevOps при настроенном CI/CD минимальна. 
+
+##### Минусы
+ - К минусам можно отнести необходимость иметь в штате специалистов DevOps обладающих квалификацией работы с Kubernetes. 
+ - Кроме того, необходимы DevOps с навыками GitOps для настройки CI/CD. 
+ - Накладные расходы на поддержание кластера могут быть достаточно высокими.
+
+##### Обоснование выбора
+ - Выбор данной архитектуры обусловлен необходимостью дальнейшей масштабируемости и добавления новых моделей в зоопарк моделей банка. Kubernetes позволит незаметно для пользователей подключать дополнительные мощности в кластер. RayServe позволит добавлять и обновлять модели с помощью простого API.
 
 #### 4.3. Требования к работе системы
 
@@ -152,7 +164,7 @@ $S(x_i, x_j) = \begin{cases} 1, \enspace x_i > x_j\\ \frac{1}{2}, \enspace x_i =
 
 #### 4.4. Безопасность системы
 
-- Потенциальная уязвимость системы `Data Scientist`
+- В данной версии пилота в ЭндПоинты системы не добалена аутентификация. Это может повлечь потенциальные уязвимости системы. 
 
 #### 4.5. Безопасность данных
 
@@ -164,7 +176,486 @@ $S(x_i, x_j) = \begin{cases} 1, \enspace x_i > x_j\\ \frac{1}{2}, \enspace x_i =
 
 #### 4.5. Integration points
 
-- Описание взаимодействия между сервисами (методы API и др.) `Data Scientist`
+Ниже в таблице описаны методы API системы
+| №                                         | EndPoint    | Request                    |
+| ----------------------------------------- | ----------- | -------------------------- |
+| Variable/Dtype                            | Description |
+| 1                                         | D_24_MODEL  |
+|     sum: typing.Optional[float]           |             |
+|     internals_0: typing.Optional[int]     |             |
+|     internals_1: typing.Optional[float]   |             |
+|     internals_2: typing.Optional[float]   |             |
+|     internals_3: typing.Optional[float]   |             |
+|     internals_4: typing.Optional[float]   |             |
+|     app_info_0: typing.Optional[float]    |             |
+|     app_info_1: typing.Optional[float]    |             |
+|     app_info_2: typing.Optional[float]    |             |
+|     app_info_3: typing.Optional[float]    |             |
+|     app_info_4: typing.Optional[float]    |             |
+|     app_info_6: typing.Optional[float]    |             |
+|     app_info_7: typing.Optional[float]    |             |
+|     app_info_8: typing.Optional[float]    |             |
+|     app_info_9: typing.Optional[float]    |             |
+|     app_info_10: typing.Optional[float]   |             |
+|     e_req_vars_0: typing.Optional[float]  |             |
+|     e_req_vars_1: typing.Optional[float]  |             |
+|     e_req_vars_2: typing.Optional[float]  |             |
+|     e_req_vars_3: typing.Optional[float]  |             |
+|     e_req_vars_4: typing.Optional[float]  |             |
+|     e_req_vars_5: typing.Optional[float]  |             |
+|     e_req_vars_6: typing.Optional[float]  |             |
+|     e_req_vars_7: typing.Optional[float]  |             |
+|     e_req_vars_8: typing.Optional[float]  |             |
+|     e_req_vars_9: typing.Optional[float]  |             |
+|     e_req_vars_10: typing.Optional[float] |             |
+|     e_req_vars_11: typing.Optional[float] |             |
+|     e_req_vars_12: typing.Optional[float] |             |
+|     e_req_vars_13: typing.Optional[float] |             |
+|     e_req_vars_14: typing.Optional[float] |             |
+|     e_req_vars_15: typing.Optional[float] |             |
+|     e_req_vars_16: typing.Optional[float] |             |
+|     e_req_vars_17: typing.Optional[float] |             |
+|     e_req_vars_18: typing.Optional[float] |             |
+|     e_req_vars_19: typing.Optional[float] |             |
+|     e_req_vars_20: typing.Optional[float] |             |
+|     e_req_vars_21: typing.Optional[float] |             |
+|     e_req_vars_22: typing.Optional[float] |             |
+|     e_req_vars_23: typing.Optional[float] |             |
+|     e_req_vars_24: typing.Optional[float] |             |
+|     e_req_vars_25: typing.Optional[float] |             |
+|     e_req_vars_26: typing.Optional[float] |             |
+|     e_req_vars_27: typing.Optional[float] |             |
+|     e_req_vars_28: typing.Optional[float] |             |
+|     e_req_vars_29: typing.Optional[float] |             |
+|     e_req_vars_30: typing.Optional[float] |             |
+|     e_req_vars_31: typing.Optional[float] |             |
+|     e_req_vars_32: typing.Optional[float] |             |
+|     e_req_vars_33: typing.Optional[float] |             |
+|     e_req_vars_34: typing.Optional[float] |             |
+|     e_req_vars_35: typing.Optional[float] |             |
+|     e_req_vars_36: typing.Optional[float] |             |
+|     e_req_vars_37: typing.Optional[float] |             |
+|     e_req_vars_38: typing.Optional[float] |             |
+|     e_req_vars_39: typing.Optional[float] |             |
+|     e_req_vars_40: typing.Optional[float] |             |
+|     e_req_vars_41: typing.Optional[float] |             |
+|     e_req_vars_42: typing.Optional[float] |             |
+|     e_req_vars_43: typing.Optional[float] |             |
+|     e_req_vars_44: typing.Optional[float] |             |
+|     e_req_vars_45: typing.Optional[float] |             |
+|     e_req_vars_46: typing.Optional[float] |             |
+|     e_req_vars_47: typing.Optional[float] |             |
+|     e_req_vars_48: typing.Optional[float] |             |
+|     e_req_vars_49: typing.Optional[float] |             |
+|     e_req_vars_50: typing.Optional[float] |             |
+|     e_req_vars_51: typing.Optional[float] |             |
+|     e_req_vars_52: typing.Optional[float] |             |
+|     e_req_vars_53: typing.Optional[float] |             |
+|     e_req_vars_54: typing.Optional[float] |             |
+|     e_req_vars_55: typing.Optional[float] |             |
+|     e_req_vars_56: typing.Optional[float] |             |
+|     e_req_vars_57: typing.Optional[float] |             |
+|     e_req_vars_58: typing.Optional[float] |             |
+|     e_req_vars_59: typing.Optional[float] |             |
+|     e_req_vars_60: typing.Optional[float] |             |
+|     e_req_vars_61: typing.Optional[float] |             |
+|     e_req_vars_62: typing.Optional[float] |             |
+|     e_req_vars_63: typing.Optional[float] |             |
+|     e_req_vars_64: typing.Optional[float] |             |
+|     e_req_vars_65: typing.Optional[float] |             |
+|     e_req_vars_66: typing.Optional[float] |             |
+|     e_req_vars_67: typing.Optional[float] |             |
+|     e_req_vars_68: typing.Optional[float] |             |
+|     e_req_vars_69: typing.Optional[float] |             |
+|     e_req_vars_70: typing.Optional[float] |             |
+|     e_req_vars_71: typing.Optional[float] |             |
+|     e_req_vars_72: typing.Optional[float] |             |
+|     e_req_vars_73: typing.Optional[float] |             |
+|     e_req_vars_74: typing.Optional[float] |             |
+|     e_req_vars_75: typing.Optional[float] |             |
+|     e_req_vars_76: typing.Optional[float] |             |
+|     e_req_vars_77: typing.Optional[float] |             |
+|     e_req_vars_78: typing.Optional[float] |             |
+|     e_req_vars_79: typing.Optional[float] |             |
+|     e_req_vars_80: typing.Optional[float] |             |
+|     e_req_vars_81: typing.Optional[float] |             |
+|     e_req_vars_82: typing.Optional[float] |             |
+|     e_req_vars_83: typing.Optional[float] |             |
+|     e_ch_vars_0: typing.Optional[float]   |             |
+|     e_ch_vars_1: typing.Optional[float]   |             |
+|     e_ch_vars_2: typing.Optional[float]   |             |
+|     e_ch_vars_3: typing.Optional[float]   |             |
+|     e_ch_vars_4: typing.Optional[float]   |             |
+|     e_ch_vars_5: typing.Optional[float]   |             |
+|     e_ch_vars_6: typing.Optional[float]   |             |
+|     e_ch_vars_7: typing.Optional[float]   |             |
+|     e_ch_vars_8: typing.Optional[float]   |             |
+|     e_ch_vars_9: typing.Optional[float]   |             |
+|     e_ch_vars_10: typing.Optional[float]  |             |
+|     e_ch_vars_11: typing.Optional[float]  |             |
+|     e_ch_vars_12: typing.Optional[float]  |             |
+|     e_ch_vars_13: typing.Optional[float]  |             |
+|     e_ch_vars_14: typing.Optional[float]  |             |
+|     e_ch_vars_15: typing.Optional[float]  |             |
+|     e_ch_vars_16: typing.Optional[float]  |             |
+|     e_ch_vars_17: typing.Optional[float]  |             |
+|     e_ch_vars_18: typing.Optional[float]  |             |
+|     e_ch_vars_19: typing.Optional[float]  |             |
+|     e_ch_vars_20: typing.Optional[float]  |             |
+|     e_ch_vars_21: typing.Optional[float]  |             |
+|     e_ch_vars_22: typing.Optional[float]  |             |
+|     e_ch_vars_23: typing.Optional[float]  |             |
+|     e_ch_vars_24: typing.Optional[float]  |             |
+|     e_ch_vars_25: typing.Optional[float]  |             |
+|     e_ch_vars_26: typing.Optional[float]  |             |
+|     e_ch_vars_27: typing.Optional[float]  |             |
+|     e_ch_vars_28: typing.Optional[float]  |             |
+|     e_ch_vars_29: typing.Optional[float]  |             |
+|     e_ch_vars_30: typing.Optional[float]  |             |
+|     e_ch_vars_31: typing.Optional[float]  |             |
+|     e_ch_vars_32: typing.Optional[float]  |             |
+|     e_ch_vars_33: typing.Optional[float]  |             |
+|     e_ch_vars_34: typing.Optional[float]  |             |
+|     e_ch_vars_35: typing.Optional[float]  |             |
+|     e_ch_vars_36: typing.Optional[float]  |             |
+|     e_ch_vars_37: typing.Optional[float]  |             |
+|     e_ch_vars_38: typing.Optional[float]  |             |
+|     e_ch_vars_39: typing.Optional[float]  |             |
+|     e_ch_vars_40: typing.Optional[float]  |             |
+|     e_ch_vars_41: typing.Optional[float]  |             |
+|     e_ch_vars_42: typing.Optional[float]  |             |
+|     e_ch_vars_43: typing.Optional[float]  |             |
+|     e_ch_vars_44: typing.Optional[float]  |             |
+|     e_ch_vars_45: typing.Optional[float]  |             |
+|     e_ch_vars_46: typing.Optional[float]  |             |
+|     e_ch_vars_47: typing.Optional[float]  |             |
+|     e_ch_vars_48: typing.Optional[float]  |             |
+|     e_ch_vars_49: typing.Optional[float]  |             |
+|     e_ch_vars_50: typing.Optional[float]  |             |
+|     e_ch_vars_51: typing.Optional[float]  |             |
+|     e_ch_vars_52: typing.Optional[float]  |             |
+|     e_ch_vars_53: typing.Optional[float]  |             |
+|     e_ch_vars_54: typing.Optional[float]  |             |
+|     e_ch_vars_55: typing.Optional[float]  |             |
+|     e_ch_vars_56: typing.Optional[float]  |             |
+|     e_ch_vars_57: typing.Optional[float]  |             |
+|     e_ch_vars_58: typing.Optional[float]  |             |
+|     e_ch_vars_59: typing.Optional[float]  |             |
+|     e_ch_vars_60: typing.Optional[float]  |             |
+|     e_ch_vars_61: typing.Optional[float]  |             |
+|     e_ch_vars_62: typing.Optional[float]  |             |
+|     e_ch_vars_63: typing.Optional[float]  |             |
+|     e_ch_vars_64: typing.Optional[float]  |             |
+|     e_ch_vars_65: typing.Optional[float]  |             |
+|     e_ch_vars_66: typing.Optional[float]  |             |
+|     e_ch_vars_67: typing.Optional[float]  |             |
+|     e_ch_vars_68: typing.Optional[float]  |             |
+|     e_ch_vars_69: typing.Optional[float]  |             |
+|     e_ch_vars_70: typing.Optional[float]  |             |
+|     e_ch_vars_71: typing.Optional[float]  |             |
+|     e_ch_vars_72: typing.Optional[float]  |             |
+|     e_ch_vars_73: typing.Optional[float]  |             |
+|     e_ch_vars_74: typing.Optional[float]  |             |
+|     e_ch_vars_75: typing.Optional[float]  |             |
+|     e_ch_vars_76: typing.Optional[float]  |             |
+|     e_ch_vars_77: typing.Optional[float]  |             |
+|     e_ch_vars_78: typing.Optional[float]  |             |
+|     e_ch_vars_79: typing.Optional[float]  |             |
+|     e_ch_vars_80: typing.Optional[float]  |             |
+|     e_ch_vars_81: typing.Optional[float]  |             |
+|     e_ch_vars_82: typing.Optional[float]  |             |
+|     e_ch_vars_83: typing.Optional[float]  |             |
+|     e_ch_vars_84: typing.Optional[float]  |             |
+|     e_ch_vars_85: typing.Optional[float]  |             |
+|     e_ch_vars_86: typing.Optional[float]  |             |
+|     e_ch_vars_87: typing.Optional[float]  |             |
+|     e_ch_vars_88: typing.Optional[float]  |             |
+|     e_ch_vars_89: typing.Optional[float]  |             |
+|     e_ch_vars_90: typing.Optional[float]  |             |
+|     e_ch_vars_91: typing.Optional[float]  |             |
+|     e_ch_vars_92: typing.Optional[float]  |             |
+|     e_ch_vars_93: typing.Optional[float]  |             |
+|     e_ch_vars_94: typing.Optional[float]  |             |
+|     e_ch_vars_95: typing.Optional[float]  |             |
+|     e_ch_vars_96: typing.Optional[float]  |             |
+|     e_ch_vars_97: typing.Optional[float]  |             |
+|     e_ch_vars_98: typing.Optional[float]  |             |
+|     e_ch_vars_99: typing.Optional[float]  |             |
+|     e_ch_vars_100: typing.Optional[float] |             |
+|     e_ch_vars_101: typing.Optional[float] |             |
+|     e_ch_vars_102: typing.Optional[float] |             |
+|     e_ch_vars_103: typing.Optional[float] |             |
+|     e_ch_vars_104: typing.Optional[float] |             |
+|     e_ch_vars_105: typing.Optional[float] |             |
+|     e_ch_vars_106: typing.Optional[float] |             |
+|     e_ch_vars_107: typing.Optional[float] |             |
+|     e_ch_vars_108: typing.Optional[float] |             |
+|     e_ch_vars_109: typing.Optional[float] |             |
+|     e_ch_vars_110: typing.Optional[float] |             |
+|     e_ch_vars_111: typing.Optional[float] |             |
+|     e_ch_vars_112: typing.Optional[float] |             |
+|     e_ch_vars_113: typing.Optional[float] |             |
+|     e_ch_vars_114: typing.Optional[float] |             |
+|     e_ch_vars_115: typing.Optional[float] |             |
+|     e_ch_vars_116: typing.Optional[float] |             |
+|     e_ch_vars_117: typing.Optional[float] |             |
+|     e_ch_vars_118: typing.Optional[float] |             |
+|     e_ch_vars_119: typing.Optional[float] |             |
+|     e_ch_vars_120: typing.Optional[float] |             |
+|     e_ch_vars_121: typing.Optional[float] |             |
+|     e_ch_vars_122: typing.Optional[float] |             |
+|     e_ch_vars_123: typing.Optional[float] |             |
+|     e_ch_vars_124: typing.Optional[float] |             |
+|     e_ch_vars_125: typing.Optional[float] |             |
+|     e_ch_vars_126: typing.Optional[float] |             |
+|     e_ch_vars_127: typing.Optional[float] |             |
+|     e_ch_vars_128: typing.Optional[float] |             |
+|     e_ch_vars_129: typing.Optional[float] |             |
+|     e_ch_vars_130: typing.Optional[float] |             |
+|     e_ch_vars_131: typing.Optional[float] |             |
+|     e_req_vars_84: typing.Optional[float] |             |
+|     e_req_vars_85: typing.Optional[float] |             |
+|     e_req_vars_86: typing.Optional[float] |             |
+|     e_req_vars_87: typing.Optional[float] |             |
+|     e_ch_vars_132: typing.Optional[float] |             |
+| 2                                         | D_36_MODEL  |
+|     sum: typing.Optional[float]           |             |
+|     internals_0: typing.Optional[int]     |             |
+|     internals_1: typing.Optional[float]   |             |
+|     internals_2: typing.Optional[float]   |             |
+|     internals_3: typing.Optional[float]   |             |
+|     internals_4: typing.Optional[float]   |             |
+|     app_info_0: typing.Optional[float]    |             |
+|     app_info_1: typing.Optional[float]    |             |
+|     app_info_2: typing.Optional[float]    |             |
+|     app_info_3: typing.Optional[float]    |             |
+|     app_info_4: typing.Optional[float]    |             |
+|     app_info_6: typing.Optional[float]    |             |
+|     app_info_7: typing.Optional[float]    |             |
+|     app_info_8: typing.Optional[float]    |             |
+|     app_info_9: typing.Optional[float]    |             |
+|     app_info_10: typing.Optional[float]   |             |
+|     e_req_vars_0: typing.Optional[float]  |             |
+|     e_req_vars_1: typing.Optional[float]  |             |
+|     e_req_vars_2: typing.Optional[float]  |             |
+|     e_req_vars_3: typing.Optional[float]  |             |
+|     e_req_vars_4: typing.Optional[float]  |             |
+|     e_req_vars_5: typing.Optional[float]  |             |
+|     e_req_vars_6: typing.Optional[float]  |             |
+|     e_req_vars_7: typing.Optional[float]  |             |
+|     e_req_vars_8: typing.Optional[float]  |             |
+|     e_req_vars_9: typing.Optional[float]  |             |
+|     e_req_vars_10: typing.Optional[float] |             |
+|     e_req_vars_11: typing.Optional[float] |             |
+|     e_req_vars_12: typing.Optional[float] |             |
+|     e_req_vars_13: typing.Optional[float] |             |
+|     e_req_vars_14: typing.Optional[float] |             |
+|     e_req_vars_15: typing.Optional[float] |             |
+|     e_req_vars_16: typing.Optional[float] |             |
+|     e_req_vars_17: typing.Optional[float] |             |
+|     e_req_vars_18: typing.Optional[float] |             |
+|     e_req_vars_19: typing.Optional[float] |             |
+|     e_req_vars_20: typing.Optional[float] |             |
+|     e_req_vars_21: typing.Optional[float] |             |
+|     e_req_vars_22: typing.Optional[float] |             |
+|     e_req_vars_23: typing.Optional[float] |             |
+|     e_req_vars_24: typing.Optional[float] |             |
+|     e_req_vars_25: typing.Optional[float] |             |
+|     e_req_vars_26: typing.Optional[float] |             |
+|     e_req_vars_27: typing.Optional[float] |             |
+|     e_req_vars_28: typing.Optional[float] |             |
+|     e_req_vars_29: typing.Optional[float] |             |
+|     e_req_vars_30: typing.Optional[float] |             |
+|     e_req_vars_31: typing.Optional[float] |             |
+|     e_req_vars_32: typing.Optional[float] |             |
+|     e_req_vars_33: typing.Optional[float] |             |
+|     e_req_vars_34: typing.Optional[float] |             |
+|     e_req_vars_35: typing.Optional[float] |             |
+|     e_req_vars_36: typing.Optional[float] |             |
+|     e_req_vars_37: typing.Optional[float] |             |
+|     e_req_vars_38: typing.Optional[float] |             |
+|     e_req_vars_39: typing.Optional[float] |             |
+|     e_req_vars_40: typing.Optional[float] |             |
+|     e_req_vars_41: typing.Optional[float] |             |
+|     e_req_vars_42: typing.Optional[float] |             |
+|     e_req_vars_43: typing.Optional[float] |             |
+|     e_req_vars_44: typing.Optional[float] |             |
+|     e_req_vars_45: typing.Optional[float] |             |
+|     e_req_vars_46: typing.Optional[float] |             |
+|     e_req_vars_47: typing.Optional[float] |             |
+|     e_req_vars_48: typing.Optional[float] |             |
+|     e_req_vars_49: typing.Optional[float] |             |
+|     e_req_vars_50: typing.Optional[float] |             |
+|     e_req_vars_51: typing.Optional[float] |             |
+|     e_req_vars_52: typing.Optional[float] |             |
+|     e_req_vars_53: typing.Optional[float] |             |
+|     e_req_vars_54: typing.Optional[float] |             |
+|     e_req_vars_55: typing.Optional[float] |             |
+|     e_req_vars_56: typing.Optional[float] |             |
+|     e_req_vars_57: typing.Optional[float] |             |
+|     e_req_vars_58: typing.Optional[float] |             |
+|     e_req_vars_59: typing.Optional[float] |             |
+|     e_req_vars_60: typing.Optional[float] |             |
+|     e_req_vars_61: typing.Optional[float] |             |
+|     e_req_vars_62: typing.Optional[float] |             |
+|     e_req_vars_63: typing.Optional[float] |             |
+|     e_req_vars_64: typing.Optional[float] |             |
+|     e_req_vars_65: typing.Optional[float] |             |
+|     e_req_vars_66: typing.Optional[float] |             |
+|     e_req_vars_67: typing.Optional[float] |             |
+|     e_req_vars_68: typing.Optional[float] |             |
+|     e_req_vars_69: typing.Optional[float] |             |
+|     e_req_vars_70: typing.Optional[float] |             |
+|     e_req_vars_71: typing.Optional[float] |             |
+|     e_req_vars_72: typing.Optional[float] |             |
+|     e_req_vars_73: typing.Optional[float] |             |
+|     e_req_vars_74: typing.Optional[float] |             |
+|     e_req_vars_75: typing.Optional[float] |             |
+|     e_req_vars_76: typing.Optional[float] |             |
+|     e_req_vars_77: typing.Optional[float] |             |
+|     e_req_vars_78: typing.Optional[float] |             |
+|     e_req_vars_79: typing.Optional[float] |             |
+|     e_req_vars_80: typing.Optional[float] |             |
+|     e_req_vars_81: typing.Optional[float] |             |
+|     e_req_vars_82: typing.Optional[float] |             |
+|     e_req_vars_83: typing.Optional[float] |             |
+|     e_ch_vars_0: typing.Optional[float]   |             |
+|     e_ch_vars_1: typing.Optional[float]   |             |
+|     e_ch_vars_2: typing.Optional[float]   |             |
+|     e_ch_vars_3: typing.Optional[float]   |             |
+|     e_ch_vars_4: typing.Optional[float]   |             |
+|     e_ch_vars_5: typing.Optional[float]   |             |
+|     e_ch_vars_6: typing.Optional[float]   |             |
+|     e_ch_vars_7: typing.Optional[float]   |             |
+|     e_ch_vars_8: typing.Optional[float]   |             |
+|     e_ch_vars_9: typing.Optional[float]   |             |
+|     e_ch_vars_10: typing.Optional[float]  |             |
+|     e_ch_vars_11: typing.Optional[float]  |             |
+|     e_ch_vars_12: typing.Optional[float]  |             |
+|     e_ch_vars_13: typing.Optional[float]  |             |
+|     e_ch_vars_14: typing.Optional[float]  |             |
+|     e_ch_vars_15: typing.Optional[float]  |             |
+|     e_ch_vars_16: typing.Optional[float]  |             |
+|     e_ch_vars_17: typing.Optional[float]  |             |
+|     e_ch_vars_18: typing.Optional[float]  |             |
+|     e_ch_vars_19: typing.Optional[float]  |             |
+|     e_ch_vars_20: typing.Optional[float]  |             |
+|     e_ch_vars_21: typing.Optional[float]  |             |
+|     e_ch_vars_22: typing.Optional[float]  |             |
+|     e_ch_vars_23: typing.Optional[float]  |             |
+|     e_ch_vars_24: typing.Optional[float]  |             |
+|     e_ch_vars_25: typing.Optional[float]  |             |
+|     e_ch_vars_26: typing.Optional[float]  |             |
+|     e_ch_vars_27: typing.Optional[float]  |             |
+|     e_ch_vars_28: typing.Optional[float]  |             |
+|     e_ch_vars_29: typing.Optional[float]  |             |
+|     e_ch_vars_30: typing.Optional[float]  |             |
+|     e_ch_vars_31: typing.Optional[float]  |             |
+|     e_ch_vars_32: typing.Optional[float]  |             |
+|     e_ch_vars_33: typing.Optional[float]  |             |
+|     e_ch_vars_34: typing.Optional[float]  |             |
+|     e_ch_vars_35: typing.Optional[float]  |             |
+|     e_ch_vars_36: typing.Optional[float]  |             |
+|     e_ch_vars_37: typing.Optional[float]  |             |
+|     e_ch_vars_38: typing.Optional[float]  |             |
+|     e_ch_vars_39: typing.Optional[float]  |             |
+|     e_ch_vars_40: typing.Optional[float]  |             |
+|     e_ch_vars_41: typing.Optional[float]  |             |
+|     e_ch_vars_42: typing.Optional[float]  |             |
+|     e_ch_vars_43: typing.Optional[float]  |             |
+|     e_ch_vars_44: typing.Optional[float]  |             |
+|     e_ch_vars_45: typing.Optional[float]  |             |
+|     e_ch_vars_46: typing.Optional[float]  |             |
+|     e_ch_vars_47: typing.Optional[float]  |             |
+|     e_ch_vars_48: typing.Optional[float]  |             |
+|     e_ch_vars_49: typing.Optional[float]  |             |
+|     e_ch_vars_50: typing.Optional[float]  |             |
+|     e_ch_vars_51: typing.Optional[float]  |             |
+|     e_ch_vars_52: typing.Optional[float]  |             |
+|     e_ch_vars_53: typing.Optional[float]  |             |
+|     e_ch_vars_54: typing.Optional[float]  |             |
+|     e_ch_vars_55: typing.Optional[float]  |             |
+|     e_ch_vars_56: typing.Optional[float]  |             |
+|     e_ch_vars_57: typing.Optional[float]  |             |
+|     e_ch_vars_58: typing.Optional[float]  |             |
+|     e_ch_vars_59: typing.Optional[float]  |             |
+|     e_ch_vars_60: typing.Optional[float]  |             |
+|     e_ch_vars_61: typing.Optional[float]  |             |
+|     e_ch_vars_62: typing.Optional[float]  |             |
+|     e_ch_vars_63: typing.Optional[float]  |             |
+|     e_ch_vars_64: typing.Optional[float]  |             |
+|     e_ch_vars_65: typing.Optional[float]  |             |
+|     e_ch_vars_66: typing.Optional[float]  |             |
+|     e_ch_vars_67: typing.Optional[float]  |             |
+|     e_ch_vars_68: typing.Optional[float]  |             |
+|     e_ch_vars_69: typing.Optional[float]  |             |
+|     e_ch_vars_70: typing.Optional[float]  |             |
+|     e_ch_vars_71: typing.Optional[float]  |             |
+|     e_ch_vars_72: typing.Optional[float]  |             |
+|     e_ch_vars_73: typing.Optional[float]  |             |
+|     e_ch_vars_74: typing.Optional[float]  |             |
+|     e_ch_vars_75: typing.Optional[float]  |             |
+|     e_ch_vars_76: typing.Optional[float]  |             |
+|     e_ch_vars_77: typing.Optional[float]  |             |
+|     e_ch_vars_78: typing.Optional[float]  |             |
+|     e_ch_vars_79: typing.Optional[float]  |             |
+|     e_ch_vars_80: typing.Optional[float]  |             |
+|     e_ch_vars_81: typing.Optional[float]  |             |
+|     e_ch_vars_82: typing.Optional[float]  |             |
+|     e_ch_vars_83: typing.Optional[float]  |             |
+|     e_ch_vars_84: typing.Optional[float]  |             |
+|     e_ch_vars_85: typing.Optional[float]  |             |
+|     e_ch_vars_86: typing.Optional[float]  |             |
+|     e_ch_vars_87: typing.Optional[float]  |             |
+|     e_ch_vars_88: typing.Optional[float]  |             |
+|     e_ch_vars_89: typing.Optional[float]  |             |
+|     e_ch_vars_90: typing.Optional[float]  |             |
+|     e_ch_vars_91: typing.Optional[float]  |             |
+|     e_ch_vars_92: typing.Optional[float]  |             |
+|     e_ch_vars_93: typing.Optional[float]  |             |
+|     e_ch_vars_94: typing.Optional[float]  |             |
+|     e_ch_vars_95: typing.Optional[float]  |             |
+|     e_ch_vars_96: typing.Optional[float]  |             |
+|     e_ch_vars_97: typing.Optional[float]  |             |
+|     e_ch_vars_98: typing.Optional[float]  |             |
+|     e_ch_vars_99: typing.Optional[float]  |             |
+|     e_ch_vars_100: typing.Optional[float] |             |
+|     e_ch_vars_101: typing.Optional[float] |             |
+|     e_ch_vars_102: typing.Optional[float] |             |
+|     e_ch_vars_103: typing.Optional[float] |             |
+|     e_ch_vars_104: typing.Optional[float] |             |
+|     e_ch_vars_105: typing.Optional[float] |             |
+|     e_ch_vars_106: typing.Optional[float] |             |
+|     e_ch_vars_107: typing.Optional[float] |             |
+|     e_ch_vars_108: typing.Optional[float] |             |
+|     e_ch_vars_109: typing.Optional[float] |             |
+|     e_ch_vars_110: typing.Optional[float] |             |
+|     e_ch_vars_111: typing.Optional[float] |             |
+|     e_ch_vars_112: typing.Optional[float] |             |
+|     e_ch_vars_113: typing.Optional[float] |             |
+|     e_ch_vars_114: typing.Optional[float] |             |
+|     e_ch_vars_115: typing.Optional[float] |             |
+|     e_ch_vars_116: typing.Optional[float] |             |
+|     e_ch_vars_117: typing.Optional[float] |             |
+|     e_ch_vars_118: typing.Optional[float] |             |
+|     e_ch_vars_119: typing.Optional[float] |             |
+|     e_ch_vars_120: typing.Optional[float] |             |
+|     e_ch_vars_121: typing.Optional[float] |             |
+|     e_ch_vars_122: typing.Optional[float] |             |
+|     e_ch_vars_123: typing.Optional[float] |             |
+|     e_ch_vars_124: typing.Optional[float] |             |
+|     e_ch_vars_125: typing.Optional[float] |             |
+|     e_ch_vars_126: typing.Optional[float] |             |
+|     e_ch_vars_127: typing.Optional[float] |             |
+|     e_ch_vars_128: typing.Optional[float] |             |
+|     e_ch_vars_129: typing.Optional[float] |             |
+|     e_ch_vars_130: typing.Optional[float] |             |
+|     e_ch_vars_131: typing.Optional[float] |             |
+|     e_req_vars_84: typing.Optional[float] |             |
+|     e_req_vars_85: typing.Optional[float] |             |
+|     e_req_vars_86: typing.Optional[float] |             |
+|     e_req_vars_87: typing.Optional[float] |             |
+|     e_ch_vars_132: typing.Optional[float] |             |
 
 #### 4.6. Риски
 
