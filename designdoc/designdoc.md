@@ -180,7 +180,7 @@ $S(x_i, x_j) = \begin{cases} 1, \enspace x_i > x_j\\ \frac{1}{2}, \enspace x_i =
 | №                                         | EndPoint    | Request                    |
 | ----------------------------------------- | ----------- | -------------------------- |
 | Variable/Dtype                            | Description |
-| 1                                         | D_24_MODEL  | type: typing.Optional[int] |  |
+| 1                                         | D_24_MODEL  |
 |     sum: typing.Optional[float]           |             |
 |     internals_0: typing.Optional[int]     |             |
 |     internals_1: typing.Optional[float]   |             |
@@ -418,7 +418,7 @@ $S(x_i, x_j) = \begin{cases} 1, \enspace x_i > x_j\\ \frac{1}{2}, \enspace x_i =
 |     e_req_vars_86: typing.Optional[float] |             |
 |     e_req_vars_87: typing.Optional[float] |             |
 |     e_ch_vars_132: typing.Optional[float] |             |
-| 1                                         | D_36_MODEL  | type: typing.Optional[int] |  |
+| 2                                         | D_36_MODEL  |
 |     sum: typing.Optional[float]           |             |
 |     internals_0: typing.Optional[int]     |             |
 |     internals_1: typing.Optional[float]   |             |
