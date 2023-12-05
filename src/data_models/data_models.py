@@ -1,8 +1,6 @@
 from pydantic import BaseModel
 import typing
-import numpy
 import xgboost
-from numpy import NaN
 
 
 class MDataModel(BaseModel):

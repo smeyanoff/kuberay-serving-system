@@ -18,6 +18,16 @@ poetry install
 poetry run pre-commit install
 ```
 
+# Streamlit UI
+1. Сначала создаем докер образ
+```bash
+sudo docker build -t streamlit .
+```
+2. Запускаем приложение 
+```bash
+sudo docker run -p 8501:8501 streamlit
+```
+
 ## Our Team
 - Дмитрий Несмеянов         (tg: @smeyanof)
 - Ринат Махмутов            (tg: @talverinat)
