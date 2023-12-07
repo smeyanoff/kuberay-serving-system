@@ -19,11 +19,11 @@ def load_json(file_path):
 # Функция для отправки данных на сервис Ray Serve
 def send_data_to_serve(url, data):
     dm = DataModel(**data)
-    response = requests.get(f"{API_URL}/{url}", json=dm.json().replace("NaN", "None"))
-    result = response.content
+    response = requests.get(f"{API_URL}/{url}", json=dm.json().replace("NaN", "None").replace("null", "None"))
+    result = response.json()
     return {
         "Код ответа HTTP-статуса": response.status_code,
-        "Ответ модели": result,
+        "Ответ модели": round(result["model_unswer"], 5),
     }  # Вернуть ответ от модели
 
 
