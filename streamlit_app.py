@@ -20,10 +20,10 @@ def load_json(file_path):
 def send_data_to_serve(url, data):
     dm = DataModel(**data)
     response = requests.get(f"{API_URL}/{url}", json=dm.json().replace("NaN", "None"))
-    result = response.content
+    result = response.json()
     return {
         "Код ответа HTTP-статуса": response.status_code,
-        "Ответ модели": result,
+        "Ответ модели": round(result["model_unswer"], 5),
     }  # Вернуть ответ от модели
 
 

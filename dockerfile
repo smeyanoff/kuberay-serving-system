@@ -1,14 +1,13 @@
-# app/Dockerfile
-
 FROM python:3.9-slim
 
 WORKDIR /app
 
-RUN pip3 install streamlit==1.29.0 requests==2.3.0 pydantic==1.10
+RUN pip install --upgrade pip
+RUN pip install streamlit==1.29.0 xgboost==2.0.1 requests pydantic
 
 COPY src/app/streamlit_app.py /app/streamlit_app.py
 COPY data/sample.json /app/data/sample.json
-COPY src/data_models /app/data_models
+COPY src/data_models /app/src/data_models
 
 EXPOSE 8501
 
