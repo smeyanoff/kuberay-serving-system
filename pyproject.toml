@@ -22,6 +22,7 @@ shap = "^0.43.0"
 matplotlib = "^3.8.1"
 catboost = "^1.2.2"
 streamlit = "^1.29.0"
+locust = "^2.19.1"
 
 
 [tool.poetry.group.testing.dependencies]

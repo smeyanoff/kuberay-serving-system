@@ -48,7 +48,7 @@ app_info_9_value = st.number_input(
     "Введите значение фичи №4 (от 0 до 100000)", value=0, min_value=0, max_value=1000000
 )
 e_ch_vars_85_value = st.number_input(
-    "Введите значение фичи №5 (от 0 до 150000)", value=0, min_value=0, max_value=72
+    "Введите значение фичи №5 (от 0 до 150000)", value=0, min_value=0, max_value=150000
 )
 e_ch_vars_111_value = st.number_input(
     "Введите значение фичи №6 (от 0 до 200000)", value=0, min_value=0, max_value=2936017
