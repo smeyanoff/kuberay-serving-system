@@ -23,6 +23,7 @@ matplotlib = "^3.8.1"
 catboost = "^1.2.2"
 streamlit = "^1.29.0"
 locust = "^2.19.1"
+seaborn = "^0.13.0"
 
 
 [tool.poetry.group.testing.dependencies]
@@ -37,4 +38,3 @@ ipykernel = "^6.25.2"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
