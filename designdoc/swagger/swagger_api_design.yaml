@@ -1,0 +1,92 @@
+openapi: 3.0.3
+info:
+  title: Модели предсказания вероятности дефолта заемщика
+  description: API для предсказания вероятности дефолта заемщика на разные месяца с использованием XGBoost и CatBoost моделей.
+  version: 1.0.0
+servers:
+  - url: http://94.142.138.188:8000/
+
+paths:
+  /D_24_MODEL:
+    post:
+      summary: Предсказание дефолта на 24 месяц с использованием XGBoost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputData'
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PredictionResult'
+
+  /D_36_MODEL:
+    post:
+      summary: Предсказание дефолта на 36 месяц с использованием CatBoost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InputData'
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PredictionResult'
+
+components:
+  schemas:
+    InputData:
+      type: object
+      properties:
+        app_info_6:
+          type: number
+          format: float
+          nullable: true
+          description: Признак отвечающий за заявочные данные 
+        type:
+          type: number
+          format: int
+          nullable: true
+          description: Тип заема
+        e_ch_vars_3:
+          type: number
+          format: float
+          nullable: true
+          description: Признак отвечающий за кредитную историю
+        app_info_9:
+          type: number
+          format: float
+          nullable: true
+          description: Признак отвечающий за заявочные данные 
+        e_ch_vars_85:
+          type: number
+          format: float
+          nullable: true
+          description: Признак отвечающий за кредитную историю
+        e_ch_vars_111:
+          type: number
+          format: float
+          nullable: true
+          description: Признак отвечающий за кредитную историю
+        additionalFeatures:
+          type: object
+          description: Дополнительные еще 232 признака отвечающие за заявочные и кредитные данные
+          additionalProperties: true
+
+
+    PredictionResult:
+      type: object
+      properties:
+        prediction:
+          type: number
+          format: float
+          nullable: true
+          description: Предсказанное значение вероятности дефолта
