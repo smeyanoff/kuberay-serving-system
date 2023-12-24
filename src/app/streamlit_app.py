@@ -6,7 +6,7 @@ import streamlit as st
 from src.data_models import DataModel
 
 FILE_PATH = "data/sample.json"
-API_URL = "http://94.142.138.188:8000"
+API_URL = "http://77.105.167.28:8000"
 
 
 # Функция для открытия json файла
